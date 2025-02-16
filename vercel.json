@@ -1,21 +1,9 @@
-/api
-  └── webhook.js
-vercel.json
-
-// api/webhook.js
-export default function handler(req, res) {
-  if (req.method === 'POST') {
-    console.log('Received Webhook:', req.body);  
-  } else {
-    res.setHeader('Allow', ['POST']);
-    res.status(405).end(`Method ${req.method} Not Allowed`);
-  }
-}
 {
+  "version": 2,
+  "builds": [
+    { "src": "api/index.js", "use": "@vercel/node" }
+  ],
   "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "/api/$1"
-    }
+    { "src": "/api/(.*)", "dest": "/api/index.js" }
   ]
 }

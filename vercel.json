@@ -1,36 +1,13 @@
 /api
-  └── index.js
+  └── webhook.js
 vercel.json
-
-/* === Vercel Webhook Server for Zalo OA === */
-const express = require('express');
-const app = express();
-const port = process.env.PORT || 3000;
-
-// Middleware to parse JSON requests
-app.use(express.json());
-
-// Webhook Endpoint
-app.post('/webhook', (req, res) => {
-  console.log('Received Webhook:', req.body);
-
-  // Example: Simple response to Zalo OA
-  res.status(200).json({ message: 'Webhook received successfully!' });
-});
-
-// Default route
-app.get('/', (req, res) => {
-  res.send('Welcome to Zalo OA Webhook Server on Vercel!');
-});
-
-// Start server (Vercel handles this automatically)
-module.exports = app;
-{
-  "version": 2,
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "/api/$1"
-    }
-  ]
+// api/webhook.js
+export default function handler(req, res) {
+  if (req.method === 'POST') {
+    console.log('Received Webhook:', req.body);
+    res.status(200).json({ message: 'Webhook received successfully!' });
+  } else {
+    res.setHeader('Allow', ['POST']);
+    res.status(405).end(`Method ${req.method} Not Allowed`);
+  }
 }

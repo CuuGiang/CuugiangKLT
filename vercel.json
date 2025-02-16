@@ -25,3 +25,12 @@ app.get('/', (req, res) => {
 
 // Start server (Vercel handles this automatically)
 module.exports = app;
+{
+  "version": 2,
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/$1"
+    }
+  ]
+}
